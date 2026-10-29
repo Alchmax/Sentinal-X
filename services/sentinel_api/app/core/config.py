@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     debug: bool = False
 
     database_url: str = (
-        "postgresql+psycopg2://sentinel:sentinel@localhost:5432/sentinel"
+        "postgresql+psycopg://sentinel:sentinel@localhost:5432/sentinel"
     )
 
     jwt_secret: str = ""
