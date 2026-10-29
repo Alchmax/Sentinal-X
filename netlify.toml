@@ -1,6 +1,6 @@
 [build]
   base = "apps/sentinel_flutter"
-  command = "flutter build web"
+  command = "flutter build web --dart-define=API_BASE_URL=https://sentinal-x-95s1.onrender.com"
   publish = "build/web"
 
 [[redirects]]
