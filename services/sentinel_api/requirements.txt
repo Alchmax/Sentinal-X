@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+alembic
+psycopg2-binary
+python-jose
+python-multipart
+python-dotenv
+httpx
+pytest
+pytest-asyncio
+ruff
+bcrypt
+reportlab

@@ -1,0 +1,6 @@
+[lint]
+select = ["E", "F", "I"]
+ignore = ["E501", "E702", "B008", "BLE001", "S110", "SIM102", "ASYNC230"]
+
+[format]
+quote-style = "double"
