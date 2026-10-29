@@ -26,7 +26,11 @@ from .api.advanced import router as advanced_router
 from .core.config import settings
 from .core.database import Base, engine
 
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    import logging
+    logging.warning(f"Could not create tables on startup: {e}")
 
 app = FastAPI(title=settings.app_name, version=settings.app_version)
 
