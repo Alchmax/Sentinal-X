@@ -53,6 +53,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> setToken(String token) async {
+    await _storage.write(key: 'jwt_token', value: token);
+    api.setToken(token);
+    state = AuthState.authenticated(token);
+  }
+
   Future<void> logout() async {
     await _storage.delete(key: 'jwt_token');
     api.setToken(null);

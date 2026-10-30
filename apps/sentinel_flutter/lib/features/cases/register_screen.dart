@@ -25,20 +25,30 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _isLoading = true);
     try {
       final api = ref.read(apiClientProvider);
-      await api.dio.post('/api/v1/auth/register', data: {
+      final response = await api.dio.post('/api/v1/auth/register', data: {
         'email': _emailCtrl.text.trim(),
         'password': _passCtrl.text.trim(),
         'full_name': _nameCtrl.text.trim(),
       });
-      await ref.read(authProvider.notifier).login(_emailCtrl.text.trim(), _passCtrl.text.trim());
+      // The register endpoint already returns a token — use it directly
+      final token = response.data['access_token'] as String;
+      await ref.read(authProvider.notifier).setToken(token);
       if (mounted) {
         context.go('/');
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: $e')),
-        );
+        final msg = e.toString();
+        if (msg.contains('400') || msg.toLowerCase().contains('already registered')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Email already registered. Please log in instead.')),
+          );
+          context.go('/login');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Registration failed: $e')),
+          );
+        }
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
